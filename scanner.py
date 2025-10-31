@@ -1,4 +1,6 @@
 import nmap
+import json
+from datetime import datetime
 import re
 from colorama import Fore, Style, init
 
@@ -32,9 +34,25 @@ def valid_ports(ports):
     return True
             
             
+#Guardar los resultados en un JSON
+def save_results_to_json(result: dict, filename: str):
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(result, f, indent=4, ensure_ascii=False)
+            print(Fore.YELLOW + f"\n Resultados guardados en {filename}\n")
+    except Exception as e:
+        print(Fore.RED + f"Error al guaradar el archivo JSON: {e}")
+            
+            
 #Estructura para escanear los puertos
 def scan_target(ip: str, ports: str):
     nm = nmap.PortScanner()
+    results = {
+        "target": ip,
+        "ports_scanner": ports,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "results": []
+    }
     
     print(Fore.CYAN + f"\n Escaneando IP: {ip} en los puertos {ports}... \n")
     print(Fore.CYAN + " (Esto puede tardar un poco)")
@@ -75,8 +93,17 @@ def scan_target(ip: str, ports: str):
                 
                 if state == "open" or (version and state != "closed"):
                     print(Fore.CYAN + f"  [INFO] Servicio:{service.strip()} | Versión: {version.strip()}")
+                    
+                results["results"].append({
+                    "port": port,
+                    "protocol": proto,
+                    "state": state,
+                    "service": service,
+                    "version": version
+                })
     
     print(Fore.CYAN + "\n Escaneo Completado. \n")
+    return results
     
     
 
@@ -91,4 +118,8 @@ if __name__ == "__main__":
     elif not valid_ports(port_range):
         print(Fore.RED + "Error: El rango/lista de puertos no es válido (debe ser entre 1 y 65535).")
     else:
-        scan_target(target_ip, port_range)
+        results = scan_target(target_ip, port_range)
+        save_option = input("¿Deseas guardar los resultados en un archivo JSON? s/n  ").lower()
+        if save_option == "s":
+            filename = f"scan_results_{target_ip.replace('.','_')}.json"
+            save_results_to_json(results, filename)
