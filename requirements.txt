@@ -1,2 +1,6 @@
+Desarrollado por Ricardo Islas
+LinkedIn: https://www.linkedin.com/in/ricardo-islas-449106323
+GitHub: https://github.com/sRichi18
+
 python-nmap>=0.7.1
 colorama>=0.4.6

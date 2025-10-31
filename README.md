@@ -21,6 +21,12 @@ Herramienta simple en Python para escanear puertos en una IP o dominio local, li
 
 ---
 
+## ⚠️ Consideraciones éticas y legales
+
+Sólo realiza escaneos en sistemas que controles o para los que tengas permiso explícito. El uso malintencionado de herramientas de escaneo puede ser ilegal.
+
+---
+
 ##  Instalación (recomendada: entorno virtual)
 1. Si quieres clonar el repositorio:
 ```bash
