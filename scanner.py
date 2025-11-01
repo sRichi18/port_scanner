@@ -58,7 +58,7 @@ def scan_target(ip: str, ports: str):
     print(Fore.CYAN + " (Esto puede tardar un poco)")
     
     try:
-        nm.scan(ip, ports, arguments='-sV')
+        nm.scan(ip, ports)#, arguments='-sV')
     except nmap.PortScannerError as e:
         print(Fore.RED + f"Error de nmap {e}")
         return
