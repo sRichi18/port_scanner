@@ -58,7 +58,7 @@ def scan_target(ip: str, ports: str):
     print(Fore.CYAN + " (Esto puede tardar un poco)")
     
     try:
-        nm.scan(ip, ports)#, arguments='-sV')
+        nm.scan(ip, ports), arguments='-sV')
     except nmap.PortScannerError as e:
         print(Fore.RED + f"Error de nmap {e}")
         return
@@ -122,4 +122,5 @@ if __name__ == "__main__":
         save_option = input("¿Deseas guardar los resultados en un archivo JSON? s/n  ").lower()
         if save_option == "s":
             filename = f"scan_results_{target_ip.replace('.','_')}.json"
+
             save_results_to_json(results, filename)
